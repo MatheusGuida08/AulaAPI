@@ -1,5 +1,6 @@
 <?php
 
+
 class Database
 {
     private $host = 'localhost';
@@ -21,7 +22,9 @@ class Database
         }catch(PDOException $e){
             echo 'Erro de conexão: ' . $e ->getMessage();
         }catch (Exception $e){
-            echo 'Erro: ' . $e -> getMessage();
+            echo 'Erro de Conexão: ' . $e -> getMessage();
+        }catch (Throwable $e){
+            echo 'Erro genérico: ' . $e -> getMessage();
         }
         return $this -> conn;
     }
