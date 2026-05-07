@@ -4,7 +4,7 @@ class Bebida{
     private $conn;
     private $tabela = 'bebidas';
 
-    public $idBebidas;
+    public $idBebida;
     public $nome;
     public $tamanho;
     public $valor;
@@ -12,7 +12,7 @@ class Bebida{
     public $categoria;
 
     public function __construct($db) {
-        $this-> conn = $db;
+        $this->conn = $db;
     }
 
     public function getall(){
@@ -27,5 +27,39 @@ class Bebida{
 
         //Retornando o resultado da query
         return $stmt;
+    }
+
+    public function get()
+    {
+        $query = 'SELECT
+            idBebida,
+            nome,
+            tamanho,
+            valor,
+            categoria           
+        FROM
+            ' . $this->tabela . '
+        WHERE
+            idBebida = ?
+        LIMIT 1';
+
+        // Prepara a query
+        $stmt = $this->conn->prepare($query);
+
+        // Vincula o ID
+        $stmt->bindParam(1, $this->idBebida);
+
+        // Executa a query
+        $stmt->execute();
+
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($row) {
+            // Define as propriedades
+            $this->nome = $row['nome'];
+            $this->tamanho = $row['tamanho'];
+            $this->valor = $row['valor'];
+            $this->categoria = $row['categoria'];
+        }
     }
 }
