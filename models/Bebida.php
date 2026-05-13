@@ -51,4 +51,30 @@ class Bebida {
 
         return false; // ← adiciona
     }
+
+    public function add(){
+    $query = 'INSERT INTO ' . $this->tabela . ' SET nome = :nome, tamanho = :tamanho, valor = :valor, categoria = :categoria';
+ 
+        // Preparar a query
+        $stmt = $this->conn->prepare($query);
+ 
+        // Limpar os dados
+        $this->nome = htmlspecialchars(strip_tags($this->nome));
+        $this->tamanho = htmlspecialchars(strip_tags($this->tamanho));
+        $this->valor = htmlspecialchars(strip_tags($this->valor));
+        $this->categoria = htmlspecialchars(strip_tags($this->categoria));
+ 
+        // Vincular os parâmetros
+        $stmt->bindParam(':nome', $this->nome);
+        $stmt->bindParam(':tamanho', $this->tamanho);
+        $stmt->bindParam(':valor', $this->valor);
+        $stmt->bindParam(':categoria', $this->categoria);
+ 
+        // Executar a query
+        if ($stmt->execute()) {
+            return true;
+        }        
+        return false;
+}
+
 }
